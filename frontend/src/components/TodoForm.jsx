@@ -11,6 +11,7 @@ import {
   updateTaskStatus,
 } from "../api";
 import AuthContext from "../context/AuthContext";
+import NavBar from "./common/NavBar";
 
 export function TodoForm() {
   const [item, setItem] = useState("");
@@ -21,16 +22,12 @@ export function TodoForm() {
 
   const [error, setError] = useState("");
 
-  // const isAuthenticated = useContext(AuthContext);
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  const {authUser, logout} = useContext(AuthContext);
 
   useEffect(() => {
     getTask(status)
       .then((response) => {
         setItemList(response.data.tasks);
-        console.log(response);
       })
       .catch((error) => {
         console.error("Failed to fetch tasks:", error);
@@ -122,34 +119,37 @@ export function TodoForm() {
   }
 
   return (
-    <section class="flex h-screen items-center justify-center">
-      <div class="w-full max-w-md rounded-xl bg-white p-8 shadow-md">
-        <h1 class="mb-6 text-center text-3xl font-bold text-blue-500">
-          To Do App
-        </h1>
-        <h2 class="mb-4 text-center text-2xl font-semibold">To Do List</h2>
+    <>
+    <NavBar />
+      
+      <section className="flex h-screen items-center justify-center">
+        <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-md">
+          <h1 className="mb-6 text-center text-3xl font-bold text-blue-500">
+            To Do List
+          </h1>
 
-        <ToastContainer />
+          <ToastContainer />
 
-        <TodoInput
-          item={item}
-          onChange={getValue}
-          onClick={addItem}
-          error={error}
-        />
+          <TodoInput
+            item={item}
+            onChange={getValue}
+            onClick={addItem}
+            error={error}
+          />
 
-        <FilterTab status={status} setStatus={setStatus} />
+          <FilterTab status={status} setStatus={setStatus} />
 
-        <TodoList
-          tasks={filterList}
-          editingId={editingId}
-          updateToDo={updateToDo}
-          updateTaskStatus={updateStatus}
-          editToDo={editToDo}
-          deleteToDo={deleteToDo}
-          SetEditingId={SetEditingId}
-        />
-      </div>
-    </section>
+          <TodoList
+            tasks={filterList}
+            editingId={editingId}
+            updateToDo={updateToDo}
+            updateTaskStatus={updateStatus}
+            editToDo={editToDo}
+            deleteToDo={deleteToDo}
+            SetEditingId={SetEditingId}
+          />
+        </div>
+      </section>
+    </>
   );
 }
