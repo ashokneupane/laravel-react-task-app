@@ -17,7 +17,7 @@ class TaskController extends Controller
         $query = Task::query()->where('user_id',auth()->id());
 
         if ($request->has('filter_status')) {
-            $status = (int) $request->query('filter_status');
+            $status = (int) $request->query(key: 'filter_status');
 
         // Ensure status is either 0 or 1
         if (in_array($status, [0, 1])) {
@@ -77,10 +77,10 @@ class TaskController extends Controller
             ], 200);
     }
 
-    public function changeStatus(Task $task)
+    public function changeStatus(UpdateTaskRequest $request, Task $task)
     {
         if($task){
-            $task->update(['is_completed' => !$task->is_completed]);
+            $task->update($request->only(['status']));
              return response()->json([
             'message' => 'Task Status Changed Successfully',
             'task' => $task,

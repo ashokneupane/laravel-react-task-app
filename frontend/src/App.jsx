@@ -5,6 +5,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { TodoForm } from "./components/TodoForm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import DragDrop from "./components/dndkit/DragDrop";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
             ></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/login" element={<Login />}></Route>
+            <Route path="/drag-drop" element={<DragDrop />}></Route>
+
             <Route
               path="/tasks"
               element={

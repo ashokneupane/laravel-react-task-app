@@ -7,10 +7,12 @@ const API_BASE_URL = "http://localhost:8000/task";
 
 export const getTask = (status) => {
   let url = API_BASE_URL;
-  if (status === "pending") {
-    url += "?filter_status=0";
-  } else if (status === "completed") {
+  if (status === "TODO") {
+    url += "?filter_status=TODO";
+  } else if (status === "IN_PROGRESS") {
     url += "?filter_status=1";
+  } else if (status === "DONE") {
+    url += "?filter_status=DONE";
   }
   return axios.get(url);
 };
@@ -21,7 +23,7 @@ export const createTask = (title) => {
     url: API_BASE_URL,
     data: {
       title: title,
-      is_completed: false,
+      status: "TODO",
     },
   });
 };
@@ -44,10 +46,14 @@ export const deleteTask = (id) => {
   });
 };
 
-export const updateTaskStatus = (id) => {
+export const updateTaskStatus = (id,status) => {
   return axios({
-    method: "Get",
+    method: "POST",
     url: API_BASE_URL + "/change_status/" + id,
+    data: {
+      id: id,
+      status: status,
+    },
   });
 };
 

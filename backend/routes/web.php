@@ -15,5 +15,5 @@ Route::post("login",[LoginController::class, 'login']);
 
 Route::apiResource('task',controller: TaskController::class)->middleware('auth:sanctum');
 
-Route::get('/task/change_status/{task}', [TaskController::class, 'changeStatus']);
-Route::get('/task/filter_status/{task}', [TaskController::class, 'filterStatus']);
+Route::post('/task/change_status/{task}', [TaskController::class, 'changeStatus'])->middleware('auth:sanctum');
+Route::get('/task/filter_status/{task}', [TaskController::class, 'filterStatus'])->middleware('auth:sanctum');

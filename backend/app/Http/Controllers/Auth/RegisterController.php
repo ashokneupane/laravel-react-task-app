@@ -26,7 +26,6 @@ class RegisterController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] = $user->CreateToken('laravel-plus-react')->plainTextToken;
         $success['name'] = $user->name;
 
         return response()->json([

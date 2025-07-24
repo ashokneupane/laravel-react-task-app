@@ -13,8 +13,8 @@ export default function TodoItem({
           <input
             id={task.id}
             type="checkbox"
-            onChange={() => updateTaskStatus(task.id)}
-            checked={task.is_completed}
+            // onChange={() => updateTaskStatus(task.id)}
+            // checked={task.is_completed}
           ></input>
         </td>
         <td key={task.id}>{task.title}</td>
