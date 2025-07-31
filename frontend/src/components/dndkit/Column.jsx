@@ -1,5 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { TaskCard } from "./TaskCard";
+import { useState } from "react";
 
 // Define a color map per column
 const COLUMN_COLORS = {
@@ -8,7 +9,7 @@ const COLUMN_COLORS = {
   DONE: "bg-green-100",
 };
 
-export function Column({ column, tasks, onAddTask }) {
+export function Column({ column, tasks, onAddTask, onTaskSaved, onTaskClick }) {
   const { setNodeRef, isOver } = useDroppable({
     id: column.id,
   });
@@ -33,7 +34,13 @@ export function Column({ column, tasks, onAddTask }) {
         }`}
       >
         {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            column={column}
+            onTaskSaved={onTaskSaved}
+            onTaskClick={onTaskClick}
+          />
         ))}
       </div>
       <div className="mt-4">

@@ -38,7 +38,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $request->merge(['is_completed' => false, 'user_id' => auth()->id()]);
-        $task = Task::create($request->only(['title','is_completed','user_id']));
+        $task = Task::create($request->only(['title','is_completed','user_id', 'status']));
         return response()->json([
             'message' => 'Task Created Successfully',
             'task' => $task,

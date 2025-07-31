@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Column } from "./Column";
 import { DndContext } from "@dnd-kit/core";
 import { getTask, updateTaskStatus } from "../../api";
+import TaskModal from "./TaskModal";
 
 const COLUMNS = [
   { id: "TODO", title: "To Do" },
@@ -11,6 +12,15 @@ const COLUMNS = [
 
 export default function DragDrop() {
   const [itemList, setItemList] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  function handleTaskModal(task) {
+    setSelectedTask(task);
+  }
+
+  function closeModal() {
+    setSelectedTask(null);
+  }
 
   useEffect(() => {
     getTask()
@@ -49,17 +59,21 @@ export default function DragDrop() {
   }
 
   const handleAddTask = (status) => {
+    const newTask = {
+      id: Date.now().toString(), // unique ID
+      title: "",
+      description: "",
+      status,
+    };
 
-  const newTask = {
-    id: Date.now().toString(), // unique ID
-    title: "",
-    description: "",
-    status,
+    setItemList((prev) => [...prev, newTask]);
   };
 
-  setItemList((prev) => [...prev, newTask]);
-};
-
+  const handleTaskSaved = (updatedTask) => {
+    setItemList((prev) =>
+      prev.map((task) => (task.id === updatedTask.tempId ? updatedTask : task))
+    );
+  };
 
   return (
     <div className="p-6">
@@ -72,12 +86,17 @@ export default function DragDrop() {
             <Column
               key={column.id}
               column={column}
-              onAddTask={handleAddTask} 
+              onAddTask={handleAddTask}
+              onTaskSaved={handleTaskSaved}
+              onTaskClick={handleTaskModal}
               tasks={itemList.filter((task) => task.status === column.id)}
             />
           ))}
         </DndContext>
       </div>
+      {selectedTask && (
+        <TaskModal task={selectedTask} onClose={closeModal} />
+      )}
     </div>
   );
 }

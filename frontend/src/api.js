@@ -17,13 +17,13 @@ export const getTask = (status) => {
   return axios.get(url);
 };
 
-export const createTask = (title) => {
+export const createTask = (title, status = "TODO") => {
   return axios({
     method: "post",
     url: API_BASE_URL,
     data: {
       title: title,
-      status: "TODO",
+      status: status,
     },
   });
 };

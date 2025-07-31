@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->unsignedBigInteger('user_id');
             $table->enum('status',['TODO','IN_PROGRESS','DONE']);
+            $table->date('due_date')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
 
