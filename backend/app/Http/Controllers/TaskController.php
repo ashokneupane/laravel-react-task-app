@@ -58,7 +58,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-            $task->update($request->only(['title']));
+            $task->update($request->all());
             return response()->json([
             'message' => 'Task Updated Successfully',
             'task' => $task,

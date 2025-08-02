@@ -1,6 +1,8 @@
 import { Form, Field, Formik, ErrorMessage } from "formik";
+import { updateTask } from "../../api";
+import { toast } from "react-toastify";
 
-export default function TaskModal({ task, onClose }) {
+export default function TaskModal({ task, onClose, onTaskUpdate, onDelete }) {
   if (!task) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -14,6 +16,7 @@ export default function TaskModal({ task, onClose }) {
         <h2 className="text-2xl font-bold mb-4">{task.title}</h2>
         <Formik
           initialValues={{
+            id: task.id,
             status: task.status,
             description: task.description,
             due_date: task.due_date
@@ -25,19 +28,31 @@ export default function TaskModal({ task, onClose }) {
             if (!values.status) {
               errors.status = "Status is required";
             }
-            if(values.due_date){
-                if (values.due_date < new Date().toLocaleDateString("en-CA")){
-                    errors.due_date = "Due date cannot be less than today's date"
-                }
+            if (values.due_date) {
+              if (values.due_date < new Date().toLocaleDateString("en-CA")) {
+                errors.due_date = "Due date cannot be less than today's date";
+              }
             }
             return errors;
           }}
           onSubmit={async (values) => {
-            console.log(values);
-            
+            try {
+              const response = await updateTask(values);
+              if (response.status === 200) {
+                onClose();
+                const upatedTask = {
+                  ...response.data.task,
+                  tempId: values.id,
+                };
+                onTaskUpdate(upatedTask);
+                toast("Task updated successfully!");
+              }
+            } catch (error) {
+              console.error("Failed to update task:", error);
+            }
           }}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, initialValues }) => (
             <Form className="w-full">
               <div className="mb-4">
                 <label className="font-semibold mb-1 block text-left">
@@ -108,6 +123,7 @@ export default function TaskModal({ task, onClose }) {
                 <button
                   type="submit"
                   className="button border rounded-md border-red-300 py-1 px-8 bg-red-500 text-white hover:bg-red-700"
+                  onClick={() => onDelete(initialValues.id)}
                 >
                   Delete
                 </button>

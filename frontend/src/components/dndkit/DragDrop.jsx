@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Column } from "./Column";
 import { DndContext } from "@dnd-kit/core";
-import { getTask, updateTaskStatus } from "../../api";
+import { deleteTask, getTask, updateTaskStatus } from "../../api";
 import TaskModal from "./TaskModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const COLUMNS = [
   { id: "TODO", title: "To Do" },
@@ -75,11 +76,25 @@ export default function DragDrop() {
     );
   };
 
+  function deleteToDo(id) {
+    deleteTask(id)
+      .then(() => {
+        setItemList((prevList) => prevList.filter((item) => item.id !== id));
+        closeModal();
+        toast("Task Deleted successfully!");
+      })
+      .catch((error) => {
+        console.error("Failed to delete tasks:", error);
+      });
+  }
+
   return (
     <div className="p-6">
       <h1 className="mb-6 text-center text-3xl font-bold text-blue-500">
         Kanban Board
       </h1>
+      <ToastContainer />
+
       <div className="flex gap-8  overflow-x-auto">
         <DndContext onDragEnd={handleDragEnd}>
           {COLUMNS.map((column) => (
@@ -95,7 +110,12 @@ export default function DragDrop() {
         </DndContext>
       </div>
       {selectedTask && (
-        <TaskModal task={selectedTask} onClose={closeModal} />
+        <TaskModal
+          task={selectedTask}
+          onClose={closeModal}
+          onTaskUpdate={handleTaskSaved}
+          onDelete={deleteToDo}
+        />
       )}
     </div>
   );

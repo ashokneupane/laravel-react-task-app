@@ -28,13 +28,15 @@ export const createTask = (title, status = "TODO") => {
   });
 };
 
-export const updateTask = (id, title) => {
+export const updateTask = (taskDetail) => {
   return axios({
     method: "put",
-    url: API_BASE_URL + "/" + id,
+    url: API_BASE_URL + "/" + taskDetail.id,
     data: {
-      id: id,
-      title: title,
+      id: taskDetail.id,
+      status: taskDetail.status,
+      description: taskDetail.description,
+      due_date: taskDetail.due_date
     },
   });
 };

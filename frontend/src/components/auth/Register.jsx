@@ -3,6 +3,7 @@ import { registerUser } from "../../api";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../common/NavBar";
+import axios from "axios";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -49,6 +50,9 @@ export default function Register() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
+              axios.get("http://localhost:8000/sanctum/csrf-cookie", {
+                withCredentials: true,
+              });
               registerUser(values)
                 .then(() => {
                   toast("User Register successfully!");
