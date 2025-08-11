@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const csrfCookie = () => {
   let url = API_BASE_URL;
 
-  return axios.get(url, {
+  return axios.get(url + "/sanctum/csrf-cookie", {
     withCredentials: true,
   });
 };
