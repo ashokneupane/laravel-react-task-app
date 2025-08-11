@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { registerUser } from "../../api";
+import { csrfCookie, registerUser } from "../../api";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../common/NavBar";
@@ -50,9 +50,7 @@ export default function Register() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              axios.get("http://localhost:8000/sanctum/csrf-cookie", {
-                withCredentials: true,
-              });
+              csrfCookie();
               registerUser(values)
                 .then(() => {
                   toast("User Register successfully!");

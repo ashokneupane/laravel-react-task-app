@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api";
+import { csrfCookie, login } from "../../api";
 import axios from "axios";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
@@ -49,7 +49,8 @@ export default function Login() {
             }}
             onSubmit={async (values, { setSubmitting, setErrors }) => {
               try {
-                await axios.get("http://localhost:8000/sanctum/csrf-cookie"); // Step 1
+                // await axios.get("http://localhost:8000/sanctum/csrf-cookie"); // Step 1
+                await csrfCookie();
                 const response = await login(values);
                 toast("User login Successfully!");
                 setSubmitting(false);
