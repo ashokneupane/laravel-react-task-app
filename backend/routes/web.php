@@ -17,3 +17,8 @@ Route::apiResource('task',controller: TaskController::class)->middleware('auth:s
 
 Route::post('/task/change_status/{task}', [TaskController::class, 'changeStatus'])->middleware('auth:sanctum');
 Route::get('/task/filter_status/{task}', [TaskController::class, 'filterStatus'])->middleware('auth:sanctum');
+
+// Route::get('test',function(){
+//     $data = ['message' => 'Hello, Laravel!'];
+//     return response()->json($data);
+// });

@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -7,9 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const csrfCookie = () => {
   let url = API_BASE_URL;
 
-  return axios.get(url + "/sanctum/csrf-cookie", {
-    withCredentials: true,
-  });
+  return axios.get(url + "/sanctum/csrf-cookie", { withCredentials: true });
 };
 
 export const getTask = (status) => {

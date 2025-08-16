@@ -17,19 +17,21 @@ function App() {
               path="/"
               element={
                 <PrivateRoute>
-                  <TodoForm />
+                  {/* <TodoForm /> */}
+                  <DragDrop />
                 </PrivateRoute>
               }
             ></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/login" element={<Login />}></Route>
-            <Route path="/drag-drop" element={<DragDrop />}></Route>
+            {/* <Route path="/drag-drop" element={<DragDrop />}></Route> */}
 
             <Route
               path="/tasks"
               element={
                 <PrivateRoute>
-                  <TodoForm />
+                  {/* <TodoForm /> */}
+                  <DragDrop />
                 </PrivateRoute>
               }
             ></Route>
