@@ -1,5 +1,5 @@
 import axios from "axios";
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
