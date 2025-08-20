@@ -50,7 +50,7 @@ export function TaskCard({ task, column, onTaskSaved, onTaskClick }) {
       });
     }
   }, [debouncedTitle]);
-
+  console.log(task);
   return (
     <div
       ref={setNodeRef}
@@ -91,9 +91,61 @@ export function TaskCard({ task, column, onTaskSaved, onTaskClick }) {
               onMouseDown={(e) => e.stopPropagation()}
             />
           ) : (
-            <h3 className="text-base font-semibold text-gray-800 text-left">
-              {title}
-            </h3>
+            <>
+              {" "}
+              <h3 className="text-base font-semibold text-gray-800 text-left">
+                {title}
+              </h3>
+              {task.status != "DONE" && (
+                <div className="mt-2 flex justify-end">
+                  {(() => {
+                    const today = new Date();
+                    const due = new Date(task.due_date ?? today);
+                    const diffDays = Math.floor(
+                      (due.setHours(0, 0, 0, 0) - today.setHours(0, 0, 0, 0)) /
+                        (1000 * 60 * 60 * 24)
+                    );
+
+                    let text = "";
+                    let classes = "";
+
+                    if (diffDays === 0) {
+                      text = "Due today";
+                      classes = "bg-amber-50 text-amber-700 ring-amber-200";
+                    } else if (diffDays > 0) {
+                      text = `${diffDays} day${
+                        diffDays > 1 ? "s" : ""
+                      } remaining`;
+                      classes =
+                        "bg-emerald-50 text-emerald-700 ring-emerald-200";
+                    } else {
+                      text = `${Math.abs(diffDays)} day${
+                        diffDays < -1 ? "s" : ""
+                      } ago`;
+                      classes = "bg-rose-50 text-rose-700 ring-rose-200";
+                    }
+
+                    return (
+                      <div
+                        className={`inline-flex items-center gap-1 rounded-xl px-2 py-1 text-xs font-medium ring-1 ${classes}`}
+                      >
+                        <svg
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                          className="h-4 w-4"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M6 2a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2h-1V1h-2v1H9V1H7v1H6zM3 6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6zm2 2v6h10V8H5z"
+                          />
+                        </svg>
+                        {text}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

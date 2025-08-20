@@ -4,6 +4,7 @@ import { DndContext } from "@dnd-kit/core";
 import { deleteTask, getTask, updateTaskStatus } from "../../api";
 import TaskModal from "./TaskModal";
 import { toast, ToastContainer } from "react-toastify";
+import NavBar from "../common/NavBar";
 
 const COLUMNS = [
   { id: "TODO", title: "To Do" },
@@ -89,34 +90,35 @@ export default function DragDrop() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold text-blue-500">
-        Kanban Board
-      </h1>
-      <ToastContainer />
+    <>
+      <NavBar />
 
-      <div className="flex gap-8  overflow-x-auto">
-        <DndContext onDragEnd={handleDragEnd}>
-          {COLUMNS.map((column) => (
-            <Column
-              key={column.id}
-              column={column}
-              onAddTask={handleAddTask}
-              onTaskSaved={handleTaskSaved}
-              onTaskClick={handleTaskModal}
-              tasks={itemList.filter((task) => task.status === column.id)}
-            />
-          ))}
-        </DndContext>
+      <div className="p-6">
+        {/* Title */}
+        <div className="flex justify-center">
+          <h1 className="mb-6 text-3xl font-bold text-blue-500">
+            Kanban Board
+          </h1>
+        </div>
+
+        <ToastContainer />
+
+        {/* Columns */}
+        <div className="flex justify-center gap-8 overflow-x-auto">
+          <DndContext onDragEnd={handleDragEnd}>
+            {COLUMNS.map((column) => (
+              <Column
+                key={column.id}
+                column={column}
+                onAddTask={handleAddTask}
+                onTaskSaved={handleTaskSaved}
+                onTaskClick={handleTaskModal}
+                tasks={itemList.filter((task) => task.status === column.id)}
+              />
+            ))}
+          </DndContext>
+        </div>
       </div>
-      {selectedTask && (
-        <TaskModal
-          task={selectedTask}
-          onClose={closeModal}
-          onTaskUpdate={handleTaskSaved}
-          onDelete={deleteToDo}
-        />
-      )}
-    </div>
+    </>
   );
 }
