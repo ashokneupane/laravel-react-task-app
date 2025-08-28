@@ -50,7 +50,6 @@ export function TaskCard({ task, column, onTaskSaved, onTaskClick }) {
       });
     }
   }, [debouncedTitle]);
-  console.log(task);
   return (
     <div
       ref={setNodeRef}

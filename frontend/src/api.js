@@ -23,7 +23,6 @@ export const getTask = (status) => {
 };
 
 export const createTask = (title, status = "TODO") => {
-  console.log(API_BASE_URL);
   return axios({
     method: "post",
     url: API_BASE_URL + "/task",

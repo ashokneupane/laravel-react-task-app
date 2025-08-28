@@ -118,6 +118,11 @@ export default function DragDrop() {
             ))}
           </DndContext>
         </div>
+        {selectedTask && (
+        <TaskModal task={selectedTask} onClose={closeModal}  
+        onTaskUpdate={handleTaskSaved}
+          onDelete={deleteToDo}/>
+      )}
       </div>
     </>
   );

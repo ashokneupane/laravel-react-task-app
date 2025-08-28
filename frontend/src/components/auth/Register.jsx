@@ -60,7 +60,6 @@ export default function Register() {
                 .catch((error) => {
                   if (error.response && error.response.status === 422) {
                     const errors = error.response.data.errors;
-                    console.log(errors);
                   }
                 });
             }}
